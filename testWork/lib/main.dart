@@ -2,73 +2,91 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
-void main() {
-  runApp(MyApp());
-}
+void main() => runApp(const MyApp());
+
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        home: Home()
+    return const MaterialApp(
+      home: MyStatefulWidget(),
     );
   }
 }
 
 
-class Home extends StatefulWidget {
-  HomeState createState() => HomeState();
-}
-class HomeState extends State<Home> with SingleTickerProviderStateMixin{
+class MyStatefulWidget extends StatefulWidget {
+  const MyStatefulWidget({Key? key}) : super(key: key);
 
   @override
+  State<MyStatefulWidget> createState() => _MyStatefulWidgetState();
+}
+
+
+class _MyStatefulWidgetState extends State<MyStatefulWidget> with SingleTickerProviderStateMixin{
+  late final _tabController = TabController(length: 2, vsync: this);
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-       body:  Center(
-            child: FirstScreen(),
+    return SlidingUpPanel(
+        panel:DefaultTabController(
+          length: 2,
+          child: MaterialApp(
+            home: Scaffold(
+
+              body: TabBarView(
+                controller: _tabController,
+                children: [
+                  FirstPage(
+                    onNext: () => _tabController.index = 1,
+                  ),
+                  SecondPage(
+                    onNext:()=> _tabController.index = 0,
+                  )
+                ],
+              ),
+            ),
           ),
+        )
     );
   }
 }
-
-
-class FirstScreen extends StatelessWidget {
+class FirstPage extends StatelessWidget{
+  const FirstPage({Key? key, required this.onNext}) : super(key: key);
+  final VoidCallback onNext;
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Colors.yellow,
-      body: SlidingUpPanel(
-        panel: Center(
+  Widget build(BuildContext context){
+    return Container(
+      child: Center(
         child: RaisedButton(
-          child: new Text("Авторизация"),
-          onPressed: () {
-            Navigator.of(context).push(CupertinoPageRoute(builder: (BuildContext context)=>SlidingUpPanel(
-                defaultPanelState:PanelState.OPEN,
-                panel:SecondScreen())));
-          },
+          child: Text("Далее"),
+          onPressed: onNext ,
         ),
       ),
-      )
     );
   }
 }
-
-class SecondScreen extends StatelessWidget {
+class SecondPage extends StatelessWidget{
+  const SecondPage({Key? key, required this.onNext}) : super(key: key);
+  final VoidCallback onNext;
   @override
-  Widget build(BuildContext context) {
-    return new Scaffold(
-      backgroundColor: Colors.blue,
-      appBar: AppBar(backgroundColor: Colors.blue,
-        iconTheme: IconThemeData(
-          color: Colors.black, //change your color here
-        ),),
-      body:  Center(
-        child: RaisedButton(
-          child: new Text("Код из смс"),
-          onPressed: () {
-          },
+  Widget build(BuildContext context){
+    return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: BackButton(
+          color: Colors.black,
+          onPressed: onNext,
         ),
-      )
+      ),
+      body: Center(
+        child: RaisedButton(
+          child: Text("Получить СМС"),
+          onPressed: (){},
+        ),
+      ),
     );
   }
 }
