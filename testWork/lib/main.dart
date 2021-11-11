@@ -33,9 +33,7 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> with SingleTickerPr
     return SlidingUpPanel(
         panel:DefaultTabController(
           length: 2,
-          child:  Scaffold(
-
-              body: TabBarView(
+          child: TabBarView(
                 controller: _tabController,
                 children: [
                   FirstPage(
@@ -47,7 +45,6 @@ class _MyStatefulWidgetState extends State<MyStatefulWidget> with SingleTickerPr
                 ],
               ),
             ),
-          ),
     );
   }
 }
