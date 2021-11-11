@@ -69,10 +69,19 @@ class SecondPage extends StatelessWidget{
   final VoidCallback onNext;
   @override
   Widget build(BuildContext context){
-    return  IconButton(
-          alignment: Alignment.topLeft,
-        onPressed: onNext,
-    icon: const Icon(Icons.arrow_back_rounded )
+    return  Stack(
+        children:<Widget>[
+          IconButton(
+              alignment: Alignment.topLeft,
+              onPressed: onNext,
+              icon: const Icon(Icons.arrow_back_rounded )
+          ),
+          Center(
+          child:RaisedButton(
+            child: Text("Получить смс"),
+              onPressed: (){})
+          )
+        ]
     );
   }
 }
