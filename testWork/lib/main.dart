@@ -12,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const MaterialApp(
-      home: MyStatefulWidget(),
+      home: Scaffold(
+          body:MyStatefulWidget()),
     );
   }
 }
@@ -68,20 +69,10 @@ class SecondPage extends StatelessWidget{
   final VoidCallback onNext;
   @override
   Widget build(BuildContext context){
-    return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        leading: BackButton(
-          color: Colors.black,
-          onPressed: onNext,
-        ),
-      ),
-      body: Center(
-        child: RaisedButton(
-          child: Text("Получить СМС"),
-          onPressed: (){},
-        ),
-      ),
+    return  IconButton(
+          alignment: Alignment.topLeft,
+        onPressed: onNext,
+    icon: const Icon(Icons.arrow_back_rounded )
     );
   }
 }
