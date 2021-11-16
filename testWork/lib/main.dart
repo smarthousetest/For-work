@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
       home: Scaffold(
+        backgroundColor: Colors.yellow,
           body:MyStatefulWidget()),
     );
   }
@@ -28,24 +29,25 @@ class MyStatefulWidget extends StatefulWidget {
 
 
 class _MyStatefulWidgetState extends State<MyStatefulWidget> with SingleTickerProviderStateMixin{
-  late final _tabController = TabController(length: 2, vsync: this);
+  late final _tabController = TabController(length: 3, vsync: this);
   @override
   Widget build(BuildContext context) {
     return SlidingUpPanel(
-        panel:DefaultTabController(
-          length: 2,
-          child: TabBarView(
-                controller: _tabController,
-                children: [
-                  FirstPage(
-                    onNext: () => _tabController.index = 1,
-                  ),
-                  SecondPage(
-                    onNext:()=> _tabController.index = 0,
-                  )
-                ],
-              ),
+      panel:DefaultTabController(
+        length: 3,
+        child: TabBarView(
+          controller: _tabController,
+          children: [
+            FirstPage(
+              onNext: () => _tabController.index = 2,
             ),
+            SecondPage(
+              onNext:()=> _tabController.index = 0,
+            ),
+            ThirdPage(onNext: ()=>_tabController.index = 1)
+          ],
+        ),
+      ),
     );
   }
 }
@@ -57,7 +59,7 @@ class FirstPage extends StatelessWidget{
     return Container(
       child: Center(
         child: RaisedButton(
-          child: Text("Далее"),
+          child: Text("С 1 На 3 страницу"),
           onPressed: onNext ,
         ),
       ),
@@ -77,11 +79,26 @@ class SecondPage extends StatelessWidget{
               icon: const Icon(Icons.arrow_back_rounded )
           ),
           Center(
-          child:RaisedButton(
-            child: Text("Получить смс"),
-              onPressed: (){})
+              child:RaisedButton(
+                  child: Text("Получить смс"),
+                  onPressed: (){})
           )
         ]
+    );
+  }
+}
+class ThirdPage extends StatelessWidget{
+  const ThirdPage({Key? key, required this.onNext}) : super(key: key);
+  final VoidCallback onNext;
+  @override
+  Widget build(BuildContext context){
+    return Container(
+      child: Center(
+        child: RaisedButton(
+          child: Text("с 3 На 2 страницу "),
+          onPressed: onNext ,
+        ),
+      ),
     );
   }
 }
